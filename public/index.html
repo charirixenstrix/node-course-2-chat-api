@@ -4,19 +4,9 @@
   <meta charset="utf-8">
 </head>
 <body>
-  <p>Hi!<p>
-
+  <p>Hi!</p>
+  
   <script src="/socket.io/socket.io.js"></script>
-  <script>
-    var socket=io(); //létrehozza a kapcsolatot
-
-    socket.on('connect', ()=>{
-      console.log('Connected to the server');
-    });
-
-    socket.on('disconnect', ()=>{
-      console.log('Disconnected from server');
-    });
-  </script>
+  <script src="/js/index.js"></script>
 </body>
 </html>
