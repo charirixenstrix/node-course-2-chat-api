@@ -1,5 +1,19 @@
 var socket=io(); //létrehozza a kapcsolatot
 
+function scrollToBottom(){
+  var messages=$('#messages');
+  var newMessage=messages.children('li:last-child');
+  var clientheight=messages.prop('clientHeight');
+  var scrolltop=messages.prop('scrollTop');
+  var scrollheight=messages.prop('scrollHeight');
+  var newMessageHeight=newMessage.innerHeight();
+  var lastMessageHeight=newMessage.prev().innerHeight();
+
+  if(clientheight+scrolltop+newMessageHeight+lastMessageHeight>=scrollheight){
+    messages.scrollTop(scrollheight);
+  }
+}
+
 socket.on('connect', function (){
 
 });
@@ -16,6 +30,7 @@ socket.on('newMessage', function (message){
     from: message.from
   });
   $('#messages').append(html);
+  scrollToBottom();
   /*$('#messages').append(`<p>${message.from} ${moment(message.createdAt).format('HH:mm')}: ${message.text}</p>`);*/
 });
 socket.on('newLocationMessage', function (message){
@@ -26,6 +41,7 @@ socket.on('newLocationMessage', function (message){
     from: message.from
   });
   $('#messages').append(html);
+  scrollToBottom();
   /*$('#messages').append(`<p>${message.from} ${moment(message.createdAt).format('HH:mm')}: <a href="${message.url}" target="_blank">My location</a></p>`);*/
 });
 
