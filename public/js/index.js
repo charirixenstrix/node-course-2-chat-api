@@ -9,10 +9,10 @@ socket.on('disconnect', function (){
 });
 
 socket.on('newMessage', function (message){
-  $('#messages').append(`<p>${message.from}: ${message.text}</p>`);
+  $('#messages').append(`<p>${message.from} ${moment(message.createdAt).format('HH:mm')}: ${message.text}</p>`);
 });
 socket.on('newLocationMessage', function (message){
-  $('#messages').append(`<p>${message.from}: <a href="${message.url}" target="_blank">My location</a></p>`);
+  $('#messages').append(`<p>${message.from} ${moment(message.createdAt).format('HH:mm')}: <a href="${message.url}" target="_blank">My location</a></p>`);
 });
 
 
