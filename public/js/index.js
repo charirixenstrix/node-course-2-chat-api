@@ -9,10 +9,24 @@ socket.on('disconnect', function (){
 });
 
 socket.on('newMessage', function (message){
-  $('#messages').append(`<p>${message.from} ${moment(message.createdAt).format('HH:mm')}: ${message.text}</p>`);
+  var template=$('#message-template').html();
+  var html=Mustache.render(template, {
+    text: message.text,
+    time: moment(message.createdAt).format('HH:mm'),
+    from: message.from
+  });
+  $('#messages').append(html);
+  /*$('#messages').append(`<p>${message.from} ${moment(message.createdAt).format('HH:mm')}: ${message.text}</p>`);*/
 });
 socket.on('newLocationMessage', function (message){
-  $('#messages').append(`<p>${message.from} ${moment(message.createdAt).format('HH:mm')}: <a href="${message.url}" target="_blank">My location</a></p>`);
+  var template=$('#location-message-template').html();
+  var html=Mustache.render(template, {
+    link: message.url,
+    time: moment(message.createdAt).format('HH:mm'),
+    from: message.from
+  });
+  $('#messages').append(html);
+  /*$('#messages').append(`<p>${message.from} ${moment(message.createdAt).format('HH:mm')}: <a href="${message.url}" target="_blank">My location</a></p>`);*/
 });
 
 
