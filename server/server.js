@@ -36,9 +36,12 @@ io.on('connection', (socket)=>{
     callback();
   });
   socket.on('createMessage', (message, callback)=>{
-    console.log('createMessage: ', message);
+    var user=users.getUser(socket.id);
+    if(user && isRealString(message.text)){
+      io.to(user.room).emit('newMessage', generateMessage(user.name, message.text));
+    }
     //mindenki megkapja, a küldő is
-    io.emit('newMessage', generateMessage(message.from, message.text));
+
     callback('This is from the server');
     //a küldő nem kapja meg
     /*socket.broadcast.emit('newMessage', {
@@ -49,7 +52,10 @@ io.on('connection', (socket)=>{
   });
 
   socket.on('createLocationMessage', (location)=>{
-    io.emit('newLocationMessage', generateLocationMessage('Admin', location.latitude, location.longitude));
+    var user=users.getUser(socket.id);
+    if(user){
+      io.to(user.room).emit('newLocationMessage', generateLocationMessage(user.name, location.latitude, location.longitude));
+    }
   });
 
   socket.on('disconnect', ()=>{
